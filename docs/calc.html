@@ -7,72 +7,76 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script>
+        // Konfigurasi Tailwind CSS untuk dark mode
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    // Custom Tema
+                    // Custom Tema dapat ditambahkan di sini
                 }
             }
         }
     </script>
     <style>
+        /* Gaya dasar untuk grup input */
         .input-group {
             display: flex;
             gap: 1rem;
             margin-bottom: 0.5rem;
             align-items: center;
         }
+        /* Input dalam grup input akan mengambil sisa ruang yang tersedia */
         .input-group input {
             flex: 1;
         }
 
-        /* Styling DP table */
+        /* Styling untuk tabel DP (Dynamic Programming) */
         .dp-table-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            max-width: 100%;
+            overflow-x: auto; /* Memungkinkan scrolling horizontal untuk tabel lebar */
+            -webkit-overflow-scrolling: touch; /* Meningkatkan scrolling di perangkat sentuh */
+            max-width: 100%; /* Memastikan kontainer tidak melebihi lebar induknya */
         }
         .dp-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: fit-content;
+            width: 100%; /* Tabel mengisi lebar kontainer */
+            border-collapse: collapse; /* Menggabungkan border sel tabel */
+            min-width: fit-content; /* Memastikan tabel tidak terlalu kecil */
         }
         .dp-table th, .dp-table td {
-            border: 1px solid #e2e8f0;
-            padding: 0.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-            white-space: nowrap;
+            border: 1px solid #e2e8f0; /* Border untuk sel tabel */
+            padding: 0.5rem; /* Padding internal sel */
+            text-align: center; /* Teks di tengah sel */
+            font-size: 0.875rem; /* Ukuran font lebih kecil untuk sel tabel */
+            white-space: nowrap; /* Mencegah teks melilit di dalam sel */
         }
         .dp-table thead th {
-            background-color: #f1f5f9;
-            font-weight: bold;
+            background-color: #f1f5f9; /* Warna latar belakang header tabel */
+            font-weight: bold; /* Teks header tebal */
         }
         .dp-table tbody tr:nth-child(even) {
-            background-color: #fff;
+            background-color: #fff; /* Warna latar belakang baris genap */
         }
         .dp-table tbody tr:hover {
-            background-color: #f9fafb;
+            background-color: #f9fafb; /* Warna latar belakang saat di-hover */
         }
 
-        /* Dark mode styles untuk table */
+        /* Gaya dark mode untuk tabel */
         .dark .dp-table thead th {
-            background-color: #374151;
-            color: #d1d5db;
+            background-color: #374151; /* Warna latar belakang header dark mode */
+            color: #d1d5db; /* Warna teks header dark mode */
         }
         .dark .dp-table tbody tr:nth-child(even) {
-            background-color: #1f2937;
+            background-color: #1f2937; /* Warna latar belakang baris genap dark mode */
         }
         .dark .dp-table tbody tr:hover {
-            background-color: #4b5563;
+            background-color: #4b5563; /* Warna latar belakang saat di-hover dark mode */
         }
         .dark .dp-table th, .dark .dp-table td {
-            border-color: #424a56;
-            color: #e5e7eb;
+            border-color: #424a56; /* Warna border dark mode */
+            color: #e5e7eb; /* Warna teks dark mode */
         }
 
-        /* --- Custom Style Animasi --- */
+        /* --- Gaya Animasi Kustom --- */
+        /* Animasi fade-in */
         .animate-fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -83,6 +87,7 @@
             transform: translateY(0);
         }
 
+        /* Animasi fade-down */
         .animate-fade-down {
             opacity: 0;
             transform: translateY(-20px);
@@ -93,6 +98,7 @@
             transform: translateY(0);
         }
 
+        /* Animasi scale-in */
         .animate-scale-in {
             opacity: 0;
             transform: scale(0.95);
@@ -103,6 +109,7 @@
             transform: scale(1);
         }
 
+        /* Penundaan transisi untuk elemen-elemen tertentu agar muncul berurutan */
         .header-animated { transition-delay: 0.1s; }
         .main-content-animated { transition-delay: 0.2s; }
         .item-container-animated { transition-delay: 0.3s; }
@@ -114,6 +121,7 @@
 
     </style>
     <script>
+        // Mengatur tema awal berdasarkan preferensi pengguna atau localStorage
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         } else {
@@ -132,6 +140,7 @@
                     </a>
                 </div>
                 
+                <!-- Tombol pengalih tema (gelap/terang) -->
                 <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors duration-300">
                     <i id="theme-toggle-dark-icon" class="fas fa-moon hidden text-lg"></i>
                     <i id="theme-toggle-light-icon" class="fas fa-sun hidden text-lg"></i>
@@ -139,6 +148,7 @@
             </div>
         </nav>
     </header>
+
     <main class="flex-grow flex items-center justify-center p-4">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 animate-fade-in main-content-animated">
             <h1 class="text-3xl font-bold text-center font-bold bg-gradient-to-r from-blue-500 to-purple-600 text-transparent bg-clip-text mb-6">Visualisasi Knapsack</h1>
@@ -157,14 +167,17 @@
                 </div>
             </div>
 
+            <!-- Kontainer untuk input detail item yang akan dibuat secara dinamis -->
             <div id="itemsContainer" class="mb-6 border p-4 rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-700 animate-fade-in item-container-animated">
                 <h2 class="text-xl font-1bold text-gray-800 dark:text-white mb-3">Detail Item:</h2>
-                </div>
+            </div>
 
+            <!-- Tombol untuk menghitung dan memvisualisasikan -->
             <button onclick="calculateKnapsack()" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 hover:scale-[1.01] text-white font-bold py-2 px-4 rounded-lg w-full focus:outline-none focus:shadow-outline transition duration-[1s] transform ease-in-out animate-scale-in button-animated">
                 Hitung & Visualisasikan
             </button>
 
+            <!-- Bagian hasil perhitungan, awalnya tersembunyi -->
             <div id="results" class="mt-8 p-6 bg-gray-100 rounded-lg shadow-inner hidden dark:bg-gray-800 results-animated">
                 <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-200 mb-4 text-center">Hasil Perhitungan:</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -178,15 +191,15 @@
 
                 <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6 text-center">Tabel Dynamic Programming (DP):</h3>
                 <div id="dpTableContainer" class="dp-table-container mb-6 bg-white rounded-md shadow dark:bg-gray-800 dark:border-gray-700">
-                    </div>
+                </div>
 
                 <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 mt-6 text-center">Item yang Dipilih (Berdasarkan DP):</h3>
                 <ul id="selectedItemsList" class="list-disc list-inside text-gray-700 dark:text-gray-200 pl-4">
-                    </ul>
+                </ul>
 
                 <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4 mt-8 text-center">Kompleksitas Waktu:</h3>
                 <div id="complexityTableContainer" class="dp-table-container mb-6 bg-white rounded-md shadow dark:bg-gray-800 dark:border-gray-700">
-                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -204,7 +217,8 @@
                 <div class="flex flex-col items-center md:items-end">
                     <div class="flex space-x-5">
                         <a href="#" class="hover:text-sky-500 transition-colors duration-300 transform hover:-translate-y-1">
-                            </a>
+                            <!-- SVG atau ikon di sini jika ada -->
+                        </a>
                         <a href="#" class="hover:text-sky-500 transition-colors duration-300 transform hover:-translate-y-1">
                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="55pt" height="60pt" viewBox="0 0 300.000000 113.000000" preserveAspectRatio="xMidYMid meet">
                             <g transform="translate(0.000000,113.000000) scale(0.100000,-0.100000)" class="fill-gray-800 dark:fill-gray-200 transition-colors duration-300">
@@ -233,7 +247,8 @@
                             </svg>
                         </a>
                         <a href="#" class="hover:text-sky-500 transition-colors duration-300 transform hover:-translate-y-1">
-                            </a>
+                            <!-- SVG atau ikon di sini jika ada -->
+                        </a>
                     </div>
                 </div>
             </div>
@@ -245,14 +260,20 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
+            // Panggil generateItemInputs saat DOM selesai dimuat untuk menampilkan input awal
             generateItemInputs();
+
+            // Tambahkan event listener ke input 'Jumlah Item'
+            // Setiap kali nilai input ini berubah, fungsi generateItemInputs akan dipanggil
+            document.getElementById('numItems').addEventListener('input', generateItemInputs);
+
 
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
             const body = document.body;
 
-            // Function tema warna
+            // Fungsi untuk menerapkan tema (gelap/terang)
             function applyTheme(isDarkMode) {
                 if (isDarkMode) {
                     document.documentElement.classList.add('dark');
@@ -271,12 +292,14 @@
                 }
             }
 
+            // Atur tema awal saat halaman dimuat
             if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 applyTheme(true);
             } else {
                 applyTheme(false);
             }
 
+            // Event listener untuk tombol pengalih tema
             themeToggleBtn.addEventListener('click', function() {
                 if (localStorage.getItem('color-theme')) {
                     if (localStorage.getItem('color-theme') === 'light') {
@@ -313,13 +336,18 @@
         });
 
         /**
+         * Fungsi untuk membuat input berat dan nilai item secara dinamis
+         * berdasarkan jumlah item yang dimasukkan pengguna.
          */
         function generateItemInputs() {
+            // Ambil nilai jumlah item dari input
             const numItems = parseInt(document.getElementById('numItems').value);
             const itemsContainer = document.getElementById('itemsContainer');
 
+            // Hapus input item sebelumnya dan tambahkan kembali judul
             itemsContainer.innerHTML = '<h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">Detail Item:</h2>';
 
+            // Buat input untuk setiap item
             for (let i = 0; i < numItems; i++) {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'input-group mb-3 animate-fade-in'; // Tambahkan kelas animasi
@@ -329,72 +357,89 @@
                     <input type="number" placeholder="Nilai" class="item-value shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600" min="1" value="">
                 `;
                 itemsContainer.appendChild(itemDiv);
-                // Picu animasi untuk setiap item input
-                // Menggunakan requestAnimationFrame untuk memastikan DOM siap sebelum memicu animasi
+                // Picu animasi untuk setiap item input yang baru dibuat
                 requestAnimationFrame(() => itemDiv.classList.add('show'));
             }
         }
 
         /**
+         * Fungsi untuk menghitung masalah Knapsack menggunakan Brute Force dan Dynamic Programming,
+         * lalu memvisualisasikan hasilnya.
          */
         function calculateKnapsack() {
             const numItems = parseInt(document.getElementById('numItems').value);
             const knapsackCapacity = parseInt(document.getElementById('knapsackCapacity').value);
 
+            // Ambil berat dan nilai dari input yang dibuat secara dinamis
             const weights = Array.from(document.querySelectorAll('.item-weight')).map(input => parseInt(input.value));
             const values = Array.from(document.querySelectorAll('.item-value')).map(input => parseInt(input.value));
 
+            // Validasi input
             if (weights.some(isNaN) || values.some(isNaN) || isNaN(knapsackCapacity) || weights.some(w => w <= 0) || values.some(v => v <= 0) || knapsackCapacity <= 0) {
-
                 showCustomAlert('Pastikan semua input terisi dengan angka positif yang valid!');
                 return;
             }
 
             /**
-             * @param {number} i - Current item index.
-             * @param {number} n - Total number of items.
-             * @param {number} W - Remaining knapsack capacity.
-             * @param {number[]} berat - Array of item weights.
-             * @param {number[]} nilai - Array of item values.
-             * @returns {number} Maximum value that can be obtained.
+             * Implementasi algoritma Brute Force untuk masalah Knapsack (0/1).
+             * @param {number} i - Indeks item saat ini.
+             * @param {number} n - Total jumlah item.
+             * @param {number} W - Kapasitas knapsack yang tersisa.
+             * @param {number[]} berat - Array berat item.
+             * @param {number[]} nilai - Array nilai item.
+             * @returns {number} Nilai maksimum yang dapat diperoleh.
              */
             function bruteForce(i, n, W, berat, nilai) {
+                // Base case: jika tidak ada item tersisa atau kapasitas knapsack habis
                 if (i === n || W === 0) {
                     return 0;
                 }
+                // Jika berat item saat ini lebih besar dari kapasitas knapsack yang tersisa,
+                // maka item ini tidak bisa diambil. Lanjut ke item berikutnya.
                 if (berat[i] > W) {
                     return bruteForce(i + 1, n, W, berat, nilai);
                 }
 
+                // Dua kemungkinan:
+                // 1. Mengambil item saat ini: tambahkan nilai item dan kurangi kapasitas knapsack.
                 const take = nilai[i] + bruteForce(i + 1, n, W - berat[i], berat, nilai);
+                // 2. Tidak mengambil item saat ini: lanjut ke item berikutnya tanpa perubahan kapasitas.
                 const notTake = bruteForce(i + 1, n, W, berat, nilai);
 
+                // Ambil nilai maksimum dari kedua kemungkinan
                 return Math.max(take, notTake);
             }
 
+            // Jalankan Brute Force
             const bruteForceResult = bruteForce(0, numItems, knapsackCapacity, weights, values);
 
-            // --- Dynamic Programming Logic (JavaScript adaptation) ---
+            // --- Logika Dynamic Programming (adaptasi JavaScript) ---
             /**
-             * @param {number} n - Total number of items.
-             * @param {number} W - Knapsack capacity.
-             * @param {number[]} berat - Array of item weights.
-             * @param {number[]} nilai - Array of item values.
-             * @returns {{dpTable: number[][], selectedItems: number[]}}
+             * Implementasi algoritma Dynamic Programming untuk masalah Knapsack (0/1).
+             * @param {number} n - Total jumlah item.
+             * @param {number} W - Kapasitas knapsack.
+             * @param {number[]} berat - Array berat item.
+             * @param {number[]} nilai - Array nilai item.
+             * @returns {{dpTable: number[][], selectedItems: number[]}} Objek berisi tabel DP dan item yang dipilih.
              */
             function dynamicProgramming(n, W, berat, nilai) {
+                // Buat tabel DP (n+1 baris, W+1 kolom) diisi dengan 0
                 const dp = Array(n + 1).fill(0).map(() => Array(W + 1).fill(0));
 
+                // Iterasi melalui setiap item
                 for (let i = 1; i <= n; i++) {
+                    // Iterasi melalui setiap kapasitas knapsack yang mungkin
                     for (let w = 0; w <= W; w++) {
-                        // Jika item saat ini bisa masuk ke dalam knapsack
+                        // Jika item saat ini (item dengan indeks i-1 di array berat/nilai) bisa masuk ke dalam knapsack
                         if (berat[i - 1] <= w) {
                             // Ambil nilai maksimum dari:
-                            // 1. Tidak mengambil item saat ini (dp[i-1][w])
-                            // 2. Mengambil item saat ini + nilai dari kapasitas yang tersisa setelah mengambil item (nilai[i-1] + dp[i-1][w - berat[i-1]])
+                            // 1. Tidak mengambil item saat ini (nilai dari sel di atasnya: dp[i-1][w])
+                            // 2. Mengambil item saat ini + nilai dari kapasitas yang tersisa setelah mengambil item
+                            //    (nilai[i-1] + dp[i-1][w - berat[i-1]])
                             dp[i][w] = Math.max(dp[i - 1][w], nilai[i - 1] + dp[i - 1][w - berat[i - 1]]);
                         } else {
-                            // Jika item saat ini terlalu berat, tidak bisa diambil, ambil nilai dari baris sebelumnya
+                            // Jika item saat ini terlalu berat, tidak bisa diambil.
+                            // Ambil nilai dari sel di atasnya (tidak ada perubahan nilai).
                             dp[i][w] = dp[i - 1][w];
                         }
                     }
@@ -402,13 +447,14 @@
 
                 // Traceback: menentukan item mana yang dipilih
                 const selectedItems = [];
-                let currentW = W;
+                let currentW = W; // Mulai dari kapasitas penuh
+                // Iterasi dari item terakhir ke item pertama
                 for (let i = n; i > 0; i--) {
-                    // Jika nilai sel saat ini berbeda dari sel di atasnya,
+                    // Jika nilai sel saat ini (dp[i][currentW]) berbeda dari sel di atasnya (dp[i-1][currentW]),
                     // berarti item (i-1) disertakan untuk mencapai nilai ini.
                     if (dp[i][currentW] !== dp[i - 1][currentW]) {
-                        selectedItems.push(i - 1); // Tambahkan indeks item
-                        currentW -= berat[i - 1]; // Kurangi kapasitas dengan berat item
+                        selectedItems.push(i - 1); // Tambahkan indeks item yang dipilih
+                        currentW -= berat[i - 1]; // Kurangi kapasitas dengan berat item yang dipilih
                     }
                 }
                 // Balikkan urutan untuk menampilkan item dalam urutan asli (Item 1, Item 2, dll.)
@@ -417,28 +463,31 @@
                 return { dpTable: dp, selectedItems: selectedItems };
             }
 
+            // Jalankan Dynamic Programming
             const dpResults = dynamicProgramming(numItems, knapsackCapacity, weights, values);
             const dpTable = dpResults.dpTable;
             const selectedItems = dpResults.selectedItems;
             const dpFinalResult = dpTable[numItems][knapsackCapacity]; 
 
+            // Tampilkan bagian hasil
             const resultsSection = document.getElementById('results');
             resultsSection.classList.remove('hidden');
             // Pastikan animasi dipicu setelah visibility diubah
             requestAnimationFrame(() => resultsSection.classList.add('show'));
 
+            // Perbarui hasil Brute Force dan Dynamic Programming di UI
             document.getElementById('bruteForceResult').textContent = bruteForceResult;
             document.getElementById('dpResult').textContent = dpFinalResult;
             
 
-            // --- Visualize DP Table ---
+            // --- Visualisasikan Tabel DP ---
             const dpTableContainer = document.getElementById('dpTableContainer');
-            dpTableContainer.innerHTML = ''; // Clear previous table
+            dpTableContainer.innerHTML = ''; // Hapus tabel sebelumnya
 
             const table = document.createElement('table');
             table.className = 'dp-table animate-fade-in dp-table-animated'; // Tambahkan kelas animasi
             
-            // Create table header
+            // Buat header tabel
             const thead = document.createElement('thead');
             let headerRow = '<tr><th>i \\ W</th>';
             for (let w = 0; w <= knapsackCapacity; w++) {
@@ -448,7 +497,7 @@
             thead.innerHTML = headerRow;
             table.appendChild(thead);
 
-            // Create table body
+            // Buat body tabel
             const tbody = document.createElement('tbody');
             for (let i = 0; i <= numItems; i++) {
                 let rowHtml = `<tr><td>i=${i}</td>`;
@@ -465,9 +514,9 @@
             requestAnimationFrame(() => table.classList.add('show'));
 
 
-            // --- Display Selected Items ---
+            // --- Tampilkan Item yang Dipilih ---
             const selectedItemsList = document.getElementById('selectedItemsList');
-            selectedItemsList.innerHTML = ''; // Clear previous list
+            selectedItemsList.innerHTML = ''; // Hapus daftar sebelumnya
             selectedItemsList.classList.add('animate-fade-in', 'selected-items-animated'); // Tambahkan kelas animasi
             
             if (selectedItems.length === 0) {
@@ -485,12 +534,12 @@
             // Picu animasi untuk list keseluruhan (setelah semua item ditambahkan)
             requestAnimationFrame(() => selectedItemsList.classList.add('show'));
 
-            // --- Display Time Complexity Table ---
+            // --- Tampilkan Tabel Kompleksitas Waktu ---
             const complexityTableContainer = document.getElementById('complexityTableContainer');
-            complexityTableContainer.innerHTML = ''; // Clear previous table
+            complexityTableContainer.innerHTML = ''; // Hapus tabel sebelumnya
 
             const complexityTable = document.createElement('table');
-            complexityTable.className = 'dp-table animate-fade-in complexity-table-animated'; // Reuse dp-table styling, add animation
+            complexityTable.className = 'dp-table animate-fade-in complexity-table-animated'; // Gunakan kembali gaya dp-table, tambahkan animasi
             
             const complexityThead = document.createElement('thead');
             complexityThead.innerHTML = `
@@ -516,6 +565,7 @@
                     <td>Algoritma mengisi tabel dengan N baris dan W kolom. Setiap sel diisi dalam waktu konstan. N adalah jumlah item, W adalah kapasitas knapsack.</td>
                 </tr>
             `;
+            // BARIS INI DIHAPUS: complexityTbody.classList.add('animate-fade-in'); // Hapus baris ini
             complexityTable.appendChild(complexityTbody);
             complexityTableContainer.appendChild(complexityTable);
 
@@ -524,9 +574,12 @@
         }
 
         /**
+         * Fungsi untuk menampilkan alert kustom di tengah layar.
+         * @param {string} message - Pesan yang akan ditampilkan di alert.
          */
         function showCustomAlert(message) {
             const alertBox = document.createElement('div');
+            // Gaya untuk overlay dan posisi alert
             alertBox.className = 'fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 animate-fade-in';
             alertBox.innerHTML = `
                 <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center dark:bg-gray-800 dark:text-white animate-scale-in">
